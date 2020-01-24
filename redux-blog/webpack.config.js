@@ -11,10 +11,7 @@ module.exports={
                 test:/\.js$/,
                 include:path.join(__dirname,"src"),
                 use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ["@babel/preset-react"]
-                    }
+                    loader: 'babel-loader'
                 }
             }
         ]

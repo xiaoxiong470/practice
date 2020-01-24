@@ -1,0 +1,1 @@
+{"version":3,"file":"0.js","sources":["webpack:///./components/Demo.js"],"sourcesContent":["export default ()=>{return <div>demo</div>}"],"mappings":";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;;A","sourceRoot":""}

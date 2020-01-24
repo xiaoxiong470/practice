@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f07560eb-22fe-4110-9ded-167c3316831c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../redux-blog/.babelrc" beforeDir="false" afterPath="$PROJECT_DIR$/../redux-blog/.babelrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../redux-blog/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../redux-blog/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../redux-blog/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../redux-blog/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../redux-blog/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../redux-blog/src/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../redux-blog/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../redux-blog/webpack.config.js" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1VveEC51a31glJ1jhWI711b8XmS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\practice\redux-blog-react\src\views" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\practice\redux-blog-react" />
+      <recent name="E:\practice\redux-blog-react\src\middleware" />
+      <recent name="E:\practice\redux-blog-react\src" />
+      <recent name="E:\practice\redux-blog-react\src\routes" />
+      <recent name="E:\practice\redux-blog-react\src\components" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f07560eb-22fe-4110-9ded-167c3316831c" name="Default Changelist" comment="" />
+      <created>1578137881411</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1578137881411</updated>
+      <workItem from="1578137884951" duration="24176000" />
+      <workItem from="1578639161105" duration="1291000" />
+      <workItem from="1578645410667" duration="63000" />
+      <workItem from="1578648834045" duration="186000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

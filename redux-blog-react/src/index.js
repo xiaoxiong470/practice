@@ -1,0 +1,11 @@
+import React from "react";
+import ReactDOM from "react-dom";
+import Route from "./routes";
+import store from "./redux/configureStore";
+import syncHistoryWithStore from "react-router-redux";
+import {Provider} from "react-redux";
+import {createHashHistory } from "history";
+let history=createHashHistory();
+let his=syncHistoryWithStore(history,store);
+//store.dispatch({type:"INCREMENT_ASYNC"});
+ReactDOM.render((<Provider store={store}>{Route(his)}</Provider>), document.getElementById("root"));
