@@ -20,7 +20,6 @@ export class List extends React.Component{
         super();
         //console.log(this.props);//undefined
     }
-
     render(){
        this.props.history.push("/",{id:12});
        return (

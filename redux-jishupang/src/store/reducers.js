@@ -6,11 +6,6 @@ const initState={
 export default function (state=initState,action){
    //console.log("action",action);
     switch(action.type){
-        case TODO_LIST:
-            return {
-                ...state,
-                ...action.data
-            }
         case CHANGE_VALUE:
             
             return {
@@ -18,9 +13,9 @@ export default function (state=initState,action){
                 inputValue:action.inputValue
             }
         case ADD_ITEM:
-            
+            console.log("action.value",action.value);
             return {
-                idols:[...state.idols,state.inputValue],
+                idols:[...state.idols,action.value],
                 inputValue:""
             }
         case REMOVE_ITEM:

@@ -53,7 +53,7 @@ class TodoListUI extends Component {
  }
  function mapDispatchToProp(dispatch,prop){
     return {
-        addItem:()=>{dispatch(addItemAction())},
+        addItem:(v)=>{dispatch(addItemAction(v))},
         removeItem:(index)=>{dispatch(removeItemAction(index))},
         handleChange:(event)=>{dispatch(getChangeValueAction(event.target.value))}
 

@@ -17,10 +17,11 @@ export function getChangeValueAction(v){
     }
 }
 
-export function addItemAction(){
+export function addItemAction(value){
     //console.log("action",v);
     return {
-        type:ADD_ITEM
+        type:ADD_ITEM,
+        value
     }
 }
 

@@ -1,3 +1,4 @@
+@import "./loading.less";
 .container{
     display: flex;
     height: calc(100vh);
@@ -7,10 +8,26 @@
     }
     .main{
         flex: 1;
+        background-color: #f1f3f5;
+        overflow: auto;
         //height: calc(100%);
     }
     .content{
         position: relative;
         padding: 20px;
+    }
+}
+
+.content-wrap{
+    background-color: #fff;
+    border: 1px solid #e8e8e8;
+    margin-top:-1px ;
+}
+.clearfix{
+    &::after{
+        content: " ";
+        clear:both;
+        display: block;
+        visibility: hidden;
     }
 }

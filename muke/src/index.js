@@ -2,6 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import "./test.less";
 import Admin from "./admin";
-
-ReactDOM.render(<Admin />, document.getElementById('root'));
+import IRouter from "./router";
+import store from "../src/redux/store";
+import {Provider} from "react-redux";
+ReactDOM.render((
+    <Provider store={store}>
+        <IRouter />
+    </Provider>
+), document.getElementById('root'));
 
