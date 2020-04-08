@@ -1,21 +1,47 @@
 import React,{useState} from 'react'
 import Head from 'next/head'
-import {Row,Col,Breadcrumb,List,Affix} from "antd";
-import ReactMarkdown from "react-markdown";
-import MrakNav from "markdown-navbar";
+import {Row,Col,Breadcrumb,List,Affix,Anchor} from "antd";
 import axios from "axios";
 import {CalendarOutlined,FolderOpenOutlined,FireOutlined} from '@ant-design/icons';
+import marked from "marked";
+import hljs from "highlight.js";
 import Header from "../components/Header";
 import Author from "../components/Author";
 import Advert from "../components/Advert";
 import Footer from "../components/Footer";
 import "../static/style/pages/detail.css";
 import "markdown-navbar/dist/navbar.css";
-
+import "highlight.js/styles/monokai-sublime.css";
+import Tocify from '../components/tocity.tsx';
+import serviceUrl from "../config/apiUrl";
 
 const Detail = (blog) => {
   
-  //console.log(blog);
+  const renderer = new marked.Renderer();
+  let tocify=new Tocify();
+  renderer.heading = function(text, level) {
+    const anchor = tocify.add(text, level);
+    let html=`<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
+    return html;
+  };
+  marked.setOptions({
+    renderer: renderer,
+    highlight: function(code, language) {
+      return hljs.highlightAuto(code).value;
+    },
+    pedantic: false,//容错
+    gfm: false,//github上的Markdown
+    breaks: true,//是否支持github的换行符
+    sanitize: false,//解析HTML
+    tables:true,//github上的table
+    smartLists: true,//自动渲染列表
+    smartypants: false,
+  });
+
+
+  
+ // console.log
+  let html=marked(blog.article_content);
   return (
     <div>
       <Head>
@@ -39,8 +65,10 @@ const Detail = (blog) => {
               <span><FolderOpenOutlined />{blog.type_name}</span>
               <span><FireOutlined />{blog.view_count}</span>
             </div>
-            <div className="detailed-content">
-              <ReactMarkdown source={blog.article_content} escapeHtml={false}/>  
+            
+            <div className="detailed-content" dangerouslySetInnerHTML={{__html:html}}>
+              {/* <ReactMarkdown source={blog.article_content} escapeHtml={false}/>   */}
+              {/* {html} */}
             </div> 
           </Col>
           <Col className="comm-box" xs={0} sm={0} md={8} lg={8} xl={8}>
@@ -49,7 +77,8 @@ const Detail = (blog) => {
             <Affix offsetTop={10}>
               <div className="comm-box">
                 <div className="nav-title">文章目录</div>
-                <MrakNav source={blog.article_content} ordered={false} headingTopOffset={10}/>
+                {/* <MrakNav source={blog.article_content} ordered={false} headingTopOffset={10}/> */}
+                {tocify&&tocify.render()}
               </div>
             </Affix>
             
@@ -62,10 +91,11 @@ const Detail = (blog) => {
     </div>
   )
 }
+
 Detail.getInitialProps=async(context)=>{
-  console.log(context);
+  //console.log(context);
   let promise=new Promise((resolve,reject)=>{
-    axios.get("http://127.0.0.1:7001/default/articledetail/"+context.query.id)
+    axios.get(serviceUrl.articledetail+context.query.id)
     .then((data)=>{
        //console.log("-----------------------------------------------------------",data);
        let result=data.data[0];
