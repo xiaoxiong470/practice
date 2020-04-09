@@ -17,6 +17,7 @@ let {Item}=Menu;
 const Header=()=>{
     //let result;变量获取不到异步数据
     let [type,setType]=useState();
+    
     useEffect(()=>{
         const getData=async ()=>{
             let data=await axios.get(serviceUrl.typeinfo);
@@ -24,7 +25,10 @@ const Header=()=>{
             return data.data;
         }
         getData();
-        
+        //首页切换到具体文章类型，并没有打印，说明hearder复用了
+        return ()=>{
+            console.log("header end")
+        }
     },[]);
     const handleClick=({key})=>{
         if(key==="home"){

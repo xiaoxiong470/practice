@@ -1,22 +1,24 @@
 import React,{useState} from 'react'
 import Head from 'next/head'
 import {Row,Col,Breadcrumb,List,Affix,Anchor} from "antd";
-import axios from "axios";
 import {CalendarOutlined,FolderOpenOutlined,FireOutlined} from '@ant-design/icons';
 import marked from "marked";
 import hljs from "highlight.js";
-import Header from "../components/Header";
-import Author from "../components/Author";
-import Advert from "../components/Advert";
-import Footer from "../components/Footer";
-import "../static/style/pages/detail.css";
+import Header from "../../components/Header";
+import Author from "../../components/Author";
+import Advert from "../../components/Advert";
+import Footer from "../../components/Footer";
+
+import "../../static/style/pages/detail.css";
 import "markdown-navbar/dist/navbar.css";
 import "highlight.js/styles/monokai-sublime.css";
-import Tocify from '../components/tocity.tsx';
-import serviceUrl from "../config/apiUrl";
+import Tocify from '../../components/tocity.tsx';
+import serviceUrl from "../../config/apiUrl";
+import fetch from "node-fetch"
 
-const Detail = (blog) => {
-  
+const Detail = ({posts}) => {
+  //console.log("posts",posts);
+
   const renderer = new marked.Renderer();
   let tocify=new Tocify();
   renderer.heading = function(text, level) {
@@ -40,8 +42,8 @@ const Detail = (blog) => {
 
 
   
- // console.log
-  let html=marked(blog.article_content);
+  // console.log(posts[0]);
+  let html=marked(posts&&posts[0]&&posts[0].article_content);
   return (
     <div>
       <Head>
@@ -56,14 +58,14 @@ const Detail = (blog) => {
               <Breadcrumb separator="/">
                 <Breadcrumb.Item><a href="/">首页</a></Breadcrumb.Item>
                 <Breadcrumb.Item><a href="/list">列表</a></Breadcrumb.Item>
-                <Breadcrumb.Item>{blog.title}</Breadcrumb.Item>
+                <Breadcrumb.Item>{posts.title}</Breadcrumb.Item>
               </Breadcrumb>
             </div>
-            <div className="detailed-title">{blog.title}</div> 
+            <div className="detailed-title">{posts.title}</div> 
             <div className="list-icon center">
-              <span><CalendarOutlined />{blog.add_time}</span>
-              <span><FolderOpenOutlined />{blog.type_name}</span>
-              <span><FireOutlined />{blog.view_count}</span>
+              <span><CalendarOutlined />{posts.add_time}</span>
+              <span><FolderOpenOutlined />{posts.type_name}</span>
+              <span><FireOutlined />{posts.view_count}</span>
             </div>
             
             <div className="detailed-content" dangerouslySetInnerHTML={{__html:html}}>
@@ -92,16 +94,23 @@ const Detail = (blog) => {
   )
 }
 
-Detail.getInitialProps=async(context)=>{
-  //console.log(context);
-  let promise=new Promise((resolve,reject)=>{
-    axios.get(serviceUrl.articledetail+context.query.id)
-    .then((data)=>{
-       //console.log("-----------------------------------------------------------",data);
-       let result=data.data[0];
-       resolve(result);
-    })
- })
- return await promise;
+//服务端渲染动态路由可获得参数，普通路由传递参数不能获得，如router.push("/list?type=life")
+export async function getStaticProps({params}) {
+  //console.log("1111111111111111111",params);
+  let url=serviceUrl.articledetail+params.id;
+  //console.log("url",url);
+  const res = await fetch(serviceUrl.articledetail+params.id);
+  
+  const posts = await res.json();
+  //console.log("posts",posts);
+  return {
+    props: {
+      posts
+    },
+  }
+}
+//服务端渲染动态路由此方法必有
+export async function getStaticPaths() {
+  return {paths:[],fallback: true}
 }
 export default Detail
