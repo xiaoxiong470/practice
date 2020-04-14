@@ -37,7 +37,7 @@ const BlogList = ({posts}) => {
                return (
                 <List.Item>
                     <div className="list-title">
-                      <Link href={{pathname:"/detail",query:{id:item.Id}}}>
+                    <Link href="/detail/[id]" as={"/detail/"+item.Id}>
                        <a>{item.title}</a>
                       </Link>
                     </div> 
