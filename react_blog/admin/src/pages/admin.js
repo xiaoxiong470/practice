@@ -15,24 +15,19 @@ const Admin=()=>{
       //跳转
       history.push(e.key);
     }
+    //hello,world
     return (
         <div >
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider >
                     <div className="logo" >
                         <Menu
-                            defaultSelectedKeys={['1']}
+                            defaultSelectedKeys={['/admin/list']}
+                            defaultOpenKeys={['6']}
                             theme="dark"
                             mode="inline"
                         >
-                            <Menu.Item key="1">
-                            <PieChartOutlined />
-                                <span>工作台</span>
-                            </Menu.Item>
-                            <Menu.Item key="2">
-                                <FileAddOutlined />
-                                <span>添加文章</span>
-                            </Menu.Item>
+                            
                             <SubMenu key="6"
                             title={
                                 <span>
@@ -40,18 +35,23 @@ const Admin=()=>{
                                     <span>文章管理</span>
                                 </span>
                             }>
-                                <Menu.Item onClick={handleClick} key="/admin/add">
-                                    
-                                    <span>添加文章</span>
-                                </Menu.Item>
                                 <Menu.Item onClick={handleClick} key="/admin/list">
                                     
                                     <span>文章列表</span>
                                 </Menu.Item>
+                                <Menu.Item onClick={handleClick} key="/admin/add">
+                                    
+                                    <span>添加文章</span>
+                                </Menu.Item>
+                                
                             </SubMenu>
                             <Menu.Item key="5">
                                 <MessageOutlined />
                                 <span>留言管理</span>
+                            </Menu.Item>
+                            <Menu.Item key="1">
+                            <PieChartOutlined />
+                                <span>工作台</span>
                             </Menu.Item>
                         </Menu>
                     </div>
@@ -68,7 +68,7 @@ const Admin=()=>{
                             <Route path="/admin/add" >
                                 <ArticleAdd/>
                             </Route>
-                            <Route path="/" >
+                            <Route path="/admin/list" >
                                 <ArticleList/>
                             </Route>
                         </div>

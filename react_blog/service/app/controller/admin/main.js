@@ -26,6 +26,20 @@ class MainController extends Controller {
       ctx.body={msg:"fail"};
     }
   }
+
+  //获取文章列表
+  async getArticleById() {
+    const { ctx } = this;
+    console.log("body",ctx.request.body);
+    let id=ctx.request.body.id;
+    
+    let sql=`select a.*,t.type_name,FROM_UNIXTIME(a.add_time,'%Y-%m-%d %H:%m:%s') as add_time from article a
+              left join type t on a.type_id=t.id 
+              where a.id=${id}`;
+    //get自带select* from 
+    let result=await this.app.mysql.query(sql);
+    ctx.body = result;
+  }
   //获取文章列表
   async getArticleList() {
     const { ctx } = this;

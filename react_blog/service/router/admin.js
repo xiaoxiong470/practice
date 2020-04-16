@@ -7,4 +7,6 @@ module.exports = app => {
     router.post('/saveArticle',adminauth, controller.admin.main.saveArticle);
     router.post('/updateArticle',adminauth, controller.admin.main.updateArticle);
     router.post('/deleteArticle',adminauth, controller.admin.main.deleteArticle);
+    router.post('/getArticleById',adminauth, controller.admin.main.getArticleById);
+    
   };

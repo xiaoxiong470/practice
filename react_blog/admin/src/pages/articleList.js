@@ -8,11 +8,21 @@ import { useHistory } from "react-router-dom";
 const {confirm}=Modal;
 export default function ArticleList(){
     let [list,setList]=useState();
+
+    let history=useHistory();
     useEffect(()=>{
-      Axios.get(serviceUrl.getArticleList,{withCredentials:true})
-      .then((res)=>{
-        setList(res.data);
-      })
+        let flag=true;
+        Axios.get(serviceUrl.getArticleList,{withCredentials:true})
+        .then((res)=>{
+            if(flag){
+                setList(res.data);
+            }
+            
+        });
+        //组件销毁后不执行回调
+        return ()=>{
+            flag=false;
+        }
     },[list]);//删除后自动刷新
 
     
@@ -38,6 +48,13 @@ export default function ArticleList(){
             },
           });
     }
+
+    const handleEdit=(id)=>{
+        //添加文章和修改文章共用一个界面，所以admin/add/:id，添加文章访问不到
+        //history.push("/admin/add/"+id);
+        history.push("/admin/add?id="+id);
+        
+    }
     
     return (
         <List 
@@ -60,7 +77,8 @@ export default function ArticleList(){
                     <Col span={4}>{item.add_time}</Col>
                     <Col span={4}>{item.view_count}</Col>
                     <Col span={4}>
-                        <Button type="primary">修改</Button>
+                        <Button onClick={()=>{handleEdit(item.id)}} type="primary">修改</Button>
+                        &nbsp;&nbsp;
                         <Button onClick={()=>{handleDelete(item.id)}}>删除</Button>
                     </Col>
                 </Row>

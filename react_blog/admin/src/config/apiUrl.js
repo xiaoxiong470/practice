@@ -6,6 +6,7 @@ const serviceUrl={
     saveArticle:baseUrl+"saveArticle",
     updateArticle:baseUrl+"updateArticle",
     deleteArticle:baseUrl+"deleteArticle",
+    getArticleById:baseUrl+"getArticleById"
 }
 
 export default serviceUrl;

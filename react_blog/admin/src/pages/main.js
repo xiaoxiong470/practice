@@ -12,7 +12,7 @@ function Main() {
             <Login/>
           </Route>
           {/* 共有四种路由方式，不能混着用,官方推荐如下 */}
-          <Route path="/admin" exact >
+          <Route path="/admin"  >
             <Admin/>
           </Route>
           

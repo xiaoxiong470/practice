@@ -5,6 +5,8 @@ import hljs from "highlight.js";
 import axios from "axios";
 import serviceUrl from "../../src/config/apiUrl";
 import "../static/css/articleAdd.css"
+import { useParams ,useLocation} from "react-router-dom";
+import moment from "moment";
 const ArticleAdd=()=>{
     let [articleTitle,setArticleTitle]=useState();
     let [articleContent,setArticleContent]=useState();
@@ -17,6 +19,8 @@ const ArticleAdd=()=>{
     //判断修改还是新增
     let [articleId,setArticleId]=useState();
     
+    
+
     const renderer = new marked.Renderer();
     marked.setOptions({
         renderer: renderer,
@@ -32,26 +36,64 @@ const ArticleAdd=()=>{
         smartypants: false,
     });
   
+    //let params=useParams();
+    // /admin/add?id="+id : {}
+    // /admin/add/"+id ：{id: "2"}
+    //console.log("params",params);
+    let location=useLocation();
+    // /admin/add?id="+id,{pathname: "/admin/add", search: "?id=2", hash: "", state: undefined, key: "1bn594"}
+    // /admin/add/"+id {pathname: "/admin/add/2", search: "", hash: "", state: undefined, key: "lvwhev"}
+   //console.log("location",location);
+   let str=location.search&&location.search.replace("?","");
    
+   let arr=str.split("=");
+   console.log("str",arr);
+
+   //博客修改回显
+   useEffect(()=>{
+        axios.post(serviceUrl.getArticleById,{id:arr[1]},{withCredentials:true})
+        .then((res)=>{
+            console.log(res);
+            if(arr){
+                setArticleId(arr[1]);
+              }
+            if(res.data){
+                let data=res.data[0];
+                setArticleContent(data.article_content);
+                setArticleContentHtml(marked(data.article_content));
+                //sql语句进行了转换
+                setArticleDate(data.add_time);
+                setArticleProduction(data.introduce);
+                setArticleProductionHTML(marked(data.introduce));
+                setArticleTitle(data.title);
+                setArticleType(data.type_id);
+            }  
+        })
+       
+    },[])
+
+    //博客类型
     useEffect(()=>{
         axios.get(serviceUrl.articleType,{withCredentials:true})
         .then((res)=>{
               setBlogTypes(res.data);
-              
             })
     },[])
+
+    //博客简介改变事件
     const handelArticleContent=(e)=>{
         let v=e.target.value;
         setArticleContent(v);
         setArticleContentHtml(marked(v));
     }
-
+    //博客内容改变事件
     const handelArticleProduction=(e)=>{
         let v=e.target.value;
         setArticleProduction(v);
         setArticleProductionHTML(marked(v));
     }
 
+    //保存博客
     const saveArticle=()=>{
         if(!articleContent){
             message.error("文章内容为空");
@@ -67,8 +109,7 @@ const ArticleAdd=()=>{
             return;
         }
         //日期转换成时间戳
-        let date=new Date(articleDate).getTime();//ms
-        console.log("articleType",articleType);
+        let date=new Date(articleDate).getTime()/1000;//ms
         let params={
            type_id:articleType,
            title:articleTitle,
@@ -76,6 +117,7 @@ const ArticleAdd=()=>{
            add_time:date,
            introduce:articleProduction
         };
+        console.log(date);
         let url=serviceUrl.saveArticle;
         console.log("articleId",articleId);
         //修改
@@ -106,10 +148,10 @@ const ArticleAdd=()=>{
                 <Col span={18}>
                     <Row gutter={10}>
                         <Col span={19}>
-                            <Input placeholder="文章标题" size="large" onChange={(e)=>{setArticleTitle(e.target.value)}}/>
+                            <Input placeholder="文章标题" size="large" value={articleTitle} onChange={(e)=>{setArticleTitle(e.target.value)}}/>
                         </Col>
                         <Col span={5}>
-                            <Select  placeholder="请选择类型" size="large" onSelect={(v)=>{setArticleType(v)}} style={{width:"100%"}}>
+                            <Select  placeholder="请选择类型" size="large" value={articleType} onSelect={(v)=>{setArticleType(v)}} style={{width:"100%"}}>
                                 {
                                     blogTypes&&blogTypes.map((item)=>{
                                     return <Select.Option key={item.en_name} value={item.Id}>{item.type_name}</Select.Option>
@@ -122,8 +164,8 @@ const ArticleAdd=()=>{
                     <br/>
                     <Row gutter={10}>
                         <Col span={12}>
-                            <Input.TextArea className="markdown-content" rows={35} placeholder="文章内容" onChange={handelArticleContent}>
-
+                            <Input.TextArea className="markdown-content" value={articleContent} rows={35} placeholder="文章内容" onChange={handelArticleContent}>
+                               
                             </Input.TextArea>
                         </Col>
                         <Col span={12}>
@@ -146,8 +188,8 @@ const ArticleAdd=()=>{
                     <br/>
                     <Row gutter={10}>
                         <Col span={24}>
-                            <Input.TextArea  rows={4} placeholder="文章简介" onChange={handelArticleProduction}>
-
+                            <Input.TextArea  rows={4} value= {articleProduction} placeholder="文章简介" onChange={handelArticleProduction}>
+                              
                             </Input.TextArea>
                             <br/>
                             <br/>
@@ -157,9 +199,9 @@ const ArticleAdd=()=>{
                         </Col>
                     </Row>
                     <Row gutter={10}>
-                        <Col span={12}>
+                        <Col span={24}>
                             <div className="date-select">
-                                <DatePicker placeholder="发布日期" size="large" onChange={(date,dateStr)=>{setArticleDate(date)}}>
+                                <DatePicker placeholder="发布日期" size="large" style={{width:"100%"}}   onChange={(date,dateStr)=>{setArticleDate(date)}}>
 
                                 </DatePicker>
 
