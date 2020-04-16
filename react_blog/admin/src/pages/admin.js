@@ -2,13 +2,19 @@ import { Layout,Menu,Breadcrumb } from 'antd';
 import React from 'react';
 import {PieChartOutlined,BarsOutlined,FileAddOutlined,MessageOutlined} from "@ant-design/icons";
 import "../static/css/adminIdex.css"
-import {BrowserRouter as Router,Route} from "react-router-dom";
+import {BrowserRouter as Router,Route, useHistory} from "react-router-dom";
 import Login from "./login";
 import ArticleAdd from "./articleAdd";
+import ArticleList from "./articleList";
 const { Header, Footer, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
 const Admin=()=>{
+    let history=useHistory();
+    const handleClick=(e)=>{
+      //跳转
+      history.push(e.key);
+    }
     return (
         <div >
             <Layout style={{ minHeight: '100vh' }}>
@@ -27,17 +33,18 @@ const Admin=()=>{
                                 <FileAddOutlined />
                                 <span>添加文章</span>
                             </Menu.Item>
-                            <SubMenu key="6" title={
+                            <SubMenu key="6"
+                            title={
                                 <span>
                                     <BarsOutlined />
                                     <span>文章管理</span>
                                 </span>
                             }>
-                                <Menu.Item key="3">
+                                <Menu.Item onClick={handleClick} key="/admin/add">
                                     
                                     <span>添加文章</span>
                                 </Menu.Item>
-                                <Menu.Item key="4">
+                                <Menu.Item onClick={handleClick} key="/admin/list">
                                     
                                     <span>文章列表</span>
                                 </Menu.Item>
@@ -58,10 +65,12 @@ const Admin=()=>{
                         </Breadcrumb>
                         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                             
-                                <Route path="/admin/" >
-                                    <ArticleAdd/>
-                                </Route>
-                                
+                            <Route path="/admin/add" >
+                                <ArticleAdd/>
+                            </Route>
+                            <Route path="/" >
+                                <ArticleList/>
+                            </Route>
                         </div>
                     </Content>
                     <Footer style={{textAlign:"center"}}>Footer</Footer>

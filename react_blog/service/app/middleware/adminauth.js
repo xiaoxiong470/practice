@@ -1,6 +1,7 @@
 module.exports=(options)=>{
-    console.log(options);
+  console.log("options",options);
   return async function adminauth(ctx,next){
+      console.log("ctx.session.openId",ctx.session.openId);
     if(ctx.session.openId){
        await next();
     }else{

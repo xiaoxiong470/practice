@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row,Col, Input,Select, Button, DatePicker } from "antd";
+import { Row,Col, Input,Select, Button, DatePicker,message } from "antd";
 import marked from "marked";
 import hljs from "highlight.js";
 import axios from "axios";
@@ -9,11 +9,14 @@ const ArticleAdd=()=>{
     let [articleTitle,setArticleTitle]=useState();
     let [articleContent,setArticleContent]=useState();
     let [articleContentHtml,setArticleContentHtml]=useState();
-    let [articleType,setArticleType]=useState([]);
+    let [articleType,setArticleType]=useState();
+    let [blogTypes,setBlogTypes]=useState();
     let [articleProduction,setArticleProduction]=useState();
     let [articleProductionHTML,setArticleProductionHTML]=useState();
     let [articleDate,setArticleDate]=useState();
-
+    //判断修改还是新增
+    let [articleId,setArticleId]=useState();
+    
     const renderer = new marked.Renderer();
     marked.setOptions({
         renderer: renderer,
@@ -33,8 +36,8 @@ const ArticleAdd=()=>{
     useEffect(()=>{
         axios.get(serviceUrl.articleType,{withCredentials:true})
         .then((res)=>{
-              setArticleType(res.data);
-              console.log(res.data);
+              setBlogTypes(res.data);
+              
             })
     },[])
     const handelArticleContent=(e)=>{
@@ -48,6 +51,55 @@ const ArticleAdd=()=>{
         setArticleProduction(v);
         setArticleProductionHTML(marked(v));
     }
+
+    const saveArticle=()=>{
+        if(!articleContent){
+            message.error("文章内容为空");
+           return;
+        }
+        if(!articleTitle){
+            message.error("文章标题为空");
+            return;
+        }
+
+        if(!articleType){
+            message.error("文章类型为空");
+            return;
+        }
+        //日期转换成时间戳
+        let date=new Date(articleDate).getTime();//ms
+        console.log("articleType",articleType);
+        let params={
+           type_id:articleType,
+           title:articleTitle,
+           article_content:articleContent,
+           add_time:date,
+           introduce:articleProduction
+        };
+        let url=serviceUrl.saveArticle;
+        console.log("articleId",articleId);
+        //修改
+        if(articleId){
+            params.id=articleId;
+            url=serviceUrl.updateArticle;
+        }
+
+        axios.post(url,params,{withCredentials:true})
+        .then(res=>{              
+            // data: {articleId: 10, msg: "success"}
+            // status: 200
+            // statusText: "OK"
+            // headers: {content-length: "32", content-type: "application/json; charset=utf-8"}
+            // config: {url: "http://127.0.0.1:7001/saveArticle", method: "post", data: "{"type_id":2,"title":"test03","article_content":"t…3","add_time":1587703391266,"introduce":"test03"}", headers: {…}, transformRequest: Array(1), …}
+            // request: XMLHttpRequest {readyState: 4, timeout: 0, withCredentials: true, upload: XMLHttpRequestUpload, onreadystatechange: ƒ, …}
+           if(res.data&&res.data.msg=="success"){
+              message.success("博客保存成功");
+              setArticleId(res.data.articleId);
+           }else{
+              message.error("博客保存失败");
+           }
+        })
+    }
     return (
         <div>
             <Row gutter={5}>
@@ -57,10 +109,10 @@ const ArticleAdd=()=>{
                             <Input placeholder="文章标题" size="large" onChange={(e)=>{setArticleTitle(e.target.value)}}/>
                         </Col>
                         <Col span={5}>
-                            <Select  placeholder="请选择类型" size="large" onSelect={(v)=>{setArticleType(v)}}>
+                            <Select  placeholder="请选择类型" size="large" onSelect={(v)=>{setArticleType(v)}} style={{width:"100%"}}>
                                 {
-                                    articleType.map((item)=>{
-                                    return <Select.Option key={item.en_name} value={item.id}>{item.type_name}</Select.Option>
+                                    blogTypes&&blogTypes.map((item)=>{
+                                    return <Select.Option key={item.en_name} value={item.Id}>{item.type_name}</Select.Option>
                                     })
                                 }
                                 
@@ -88,7 +140,7 @@ const ArticleAdd=()=>{
                         <Col>
                             <Button type="" size="large">暂存文章</Button>
                             &nbsp;&nbsp;
-                            <Button type="primary" size="large">发布文章</Button>
+                            <Button type="primary" onClick={saveArticle} size="large">发布文章</Button>
                         </Col>
                     </Row>
                     <br/>

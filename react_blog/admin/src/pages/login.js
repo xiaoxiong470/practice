@@ -15,6 +15,7 @@ function Login(props) {
       setIsLoading(true);
       axios.post(serviceUrl.login, {username,password },{withCredentials: true})
       .then(res => {
+        console.log("res.data",res.data);
         let data=res.data;
         setIsLoading(false);
         if(data.msg==="success"){
