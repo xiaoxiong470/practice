@@ -7,6 +7,7 @@ import serviceUrl from "../../src/config/apiUrl";
 import "../static/css/articleAdd.css"
 import { useParams ,useLocation} from "react-router-dom";
 import moment from "moment";
+//修改和添加共用一个界面，从详情跳转到添加，详情的数据还在
 const ArticleAdd=()=>{
     let [articleTitle,setArticleTitle]=useState();
     let [articleContent,setArticleContent]=useState();
@@ -47,10 +48,11 @@ const ArticleAdd=()=>{
    let str=location.search&&location.search.replace("?","");
    
    let arr=str.split("=");
-   console.log("str",arr);
+   //console.log("str",arr);
 
    //博客修改回显
    useEffect(()=>{
+       if(arr){
         axios.post(serviceUrl.getArticleById,{id:arr[1]},{withCredentials:true})
         .then((res)=>{
             console.log(res);
@@ -66,10 +68,11 @@ const ArticleAdd=()=>{
                 setArticleProduction(data.introduce);
                 setArticleProductionHTML(marked(data.introduce));
                 setArticleTitle(data.title);
+                console.log("a",data.add_time);
                 setArticleType(data.type_id);
             }  
         })
-       
+       }
     },[])
 
     //博客类型
@@ -109,7 +112,8 @@ const ArticleAdd=()=>{
             return;
         }
         //日期转换成时间戳
-        let date=new Date(articleDate).getTime()/1000;//ms
+        let d=new Date(articleDate).getTime();
+        let date=Math.round(d/1000);//ms
         let params={
            type_id:articleType,
            title:articleTitle,
@@ -117,7 +121,7 @@ const ArticleAdd=()=>{
            add_time:date,
            introduce:articleProduction
         };
-        console.log(date);
+        //console.log(date);
         let url=serviceUrl.saveArticle;
         console.log("articleId",articleId);
         //修改
@@ -142,6 +146,7 @@ const ArticleAdd=()=>{
            }
         })
     }
+    const format="YYYY-MM-DD";
     return (
         <div>
             <Row gutter={5}>
@@ -201,7 +206,7 @@ const ArticleAdd=()=>{
                     <Row gutter={10}>
                         <Col span={24}>
                             <div className="date-select">
-                                <DatePicker placeholder="发布日期" size="large" style={{width:"100%"}}   onChange={(date,dateStr)=>{setArticleDate(date)}}>
+                                <DatePicker placeholder="发布日期" size="large" style={{width:"100%"}}  value={moment(articleDate?articleDate:new Date(),format)} format={format}  onChange={(date,dateStr)=>{setArticleDate(date)}}>
 
                                 </DatePicker>
 

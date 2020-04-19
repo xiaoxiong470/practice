@@ -33,7 +33,7 @@ class MainController extends Controller {
     console.log("body",ctx.request.body);
     let id=ctx.request.body.id;
     
-    let sql=`select a.*,t.type_name,FROM_UNIXTIME(a.add_time,'%Y-%m-%d %H:%m:%s') as add_time from article a
+    let sql=`select a.*,t.type_name,FROM_UNIXTIME(a.add_time,'%Y-%m-%d') as add_time from article a
               left join type t on a.type_id=t.id 
               where a.id=${id}`;
     //get自带select* from 
@@ -43,7 +43,7 @@ class MainController extends Controller {
   //获取文章列表
   async getArticleList() {
     const { ctx } = this;
-    let sql=`select a.*,t.type_name,FROM_UNIXTIME(a.add_time,'%Y-%m-%d %H:%m:%s') as add_time from article a
+    let sql=`select a.*,t.type_name,FROM_UNIXTIME(a.add_time,'%Y-%m-%d') as add_time from article a
               left join type t on a.type_id=t.id `;
     let result=await this.app.mysql.query(sql);
     ctx.body = result;
