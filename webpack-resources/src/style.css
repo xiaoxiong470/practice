@@ -1,0 +1,16 @@
+
+/* .ttf格式为truetype,引用字体族没有特殊符号不加双引号 */
+@font-face{
+    font-family: "myfamily";
+    src:url("./songxi.ttf") format("truetype"),
+        url("./iconfont.woff") format("woff");
+    font-weight: 600;
+    font-style:italic;
+}
+
+.hello{
+    color:red;
+    /* background: url(./kris.jpg); */
+    font-family: myfamily;
+
+}
