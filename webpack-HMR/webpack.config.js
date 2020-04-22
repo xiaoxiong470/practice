@@ -1,4 +1,7 @@
 //webpack.config.js
+//webpack热更新默认是使用websocket更新代码而不是刷新，但是当某些代码或者包不支持热更新的时候他会直接刷新页面
+//hot 是支持热更新就更新，不支持的话就直接刷新页面。这是支持热更新的，不会刷新页面，直接更新需要更新的地方
+//hotOnly 是支持热更新就更新，不支持就不更新。
 const HtmlWebpackPlugin=require("html-webpack-plugin");
 const {CleanWebpackPlugin}=require("clean-webpack-plugin");
 const webpack=require("webpack");
@@ -30,7 +33,7 @@ module.exports = {
         //[HMR] Waiting for update signal from WDS...
         //[WDS] Hot Module Replacement enabled.
         //[WDS] Live Reloading enabled.
-        hotOnly:true//模块热替换,无需刷新浏览器，dom执行的就是最新代码,推荐使用
+        //hotOnly:true//模块热替换,无需刷新浏览器，dom执行的就是最新代码,推荐使用
         
     },
     plugins:[
