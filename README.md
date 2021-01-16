@@ -9,5 +9,5 @@
 
 # muke共享单车
 单车管理后台的前端,包括城市管理,订单管理,用户管理,权限设置,车辆地图,单车统计图表等模块。          
-涉及技术:React,React Router,Redux,Javascript,HTML5,CSS3,Antd,百度地图API,ECharts。
+涉及技术:React,React Router,Redux,Javascript,HTML5,CSS3,Antd,百度地图API,ECharts。      
 配置了二级路实现界面的跳转，基于共享单车的搭建，对于react的生命周期，单向数据流有了深入的理解，掌握了百度地图，Echarts,和Antd常用组件及布局。
